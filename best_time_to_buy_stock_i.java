@@ -1,27 +1,20 @@
-// Two Pointers (i=left, i+1=right) and say maxProfit=0
-        // Eg: 7 1 5 3 6 4
-
-        int left = 0;   // buy
-        int right = 1;  // sell
-        int maxProfit = 0;
-        // 7    1   5   3   6   4
-        //left  rig             prices.length
-        while(right < prices.length){   // Start from right to end of array
-            if(prices[left] < prices[right]){   // consider only if left is < right (buy and then sell)
-                int profit = prices[right] - prices[left];
-                // check the profit and if its > maxProfit, update the maxProfit or keep existing maxProfit
-                maxProfit = profit > maxProfit ? profit : maxProfit;
-            }else{
-                // move the buy(left) pointer
-                // 7    1     5   3   6   4
-                //     left            
-                left = right;
+class Solution {
+    public int maxProfit(int[] prices) {
+        // we need to track a minprice to consider everyday's stock price (buyprice TO BEGIN)
+        int prevdayPrice = Integer.MAX_VALUE;
+        int maxprofit = 0;  // currentdayPrice - prevdayPrice ==> prices[i] - minprice
+        // iterate until all the days 
+        for (int i = 0; i < prices.length; i++) {
+            // if current day price is less than prevdayPrice (until today) ==> then we will store todayprice
+            if (prices[i] < prevdayPrice){
+                // then we will store todayprice so that we can get even lesser price
+                prevdayPrice = prices[i];   
+            }else if(prices[i] - prevdayPrice > maxprofit){
+                // if current day price is greater than prevDayPrice ==> update maxProfit
+                maxprofit = prices[i] - prevdayPrice;
             }
-            //irrespective of left < or > right, always move right (sell) pointer
-            // because selling can only happen after buying
-            // move the sell(right) pointer  
-            // 7    1     5   3   6   4
-            //          right     
-            right = right + 1;
+            
         }
-        return maxProfit; 
+        return maxprofit;   //  finally return the maxProfit you had
+    }
+}
