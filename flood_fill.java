@@ -1,5 +1,7 @@
 class Solution {
     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        // same as the number of islands but the additional step is to check for "startPixel" and
+        // whenever i == sr and j = sc then only we need to start from that position
         // get rows and columns length
         int rows = image.length;
         int columns = image[0].length;
@@ -8,7 +10,7 @@ class Solution {
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
                 if(i == sr && j == sc){ 
-                    // whenever i and j are equal to sr and sc --> then only consider filling
+                    // IMP: whenever i and j are equal to sr and sc --> then only consider filling
                     dfs(image, i, j, color, startPixel);
                 }
             }
@@ -27,15 +29,13 @@ class Solution {
         }
         
         // if the value is startPixel then only the flood has to be filled.
-        if(image[i][j] == startPixel){
-            // memoization ==> mark the visited pixel (in this problem ==> fill it with color)
-            image[i][j] = color;
-            // check 4-directionally
-            dfs(image, i-1, j, color, startPixel);  
-            dfs(image, i+1, j, color, startPixel);
-            dfs(image, i, j-1, color, startPixel);
-            dfs(image, i, j+1, color, startPixel);
-        }
+        // memoization ==> mark the visited pixel (in this problem ==> fill it with color)
+        image[i][j] = color;
+        // check 4-directionally
+        dfs(image, i-1, j, color, startPixel);  
+        dfs(image, i+1, j, color, startPixel);
+        dfs(image, i, j-1, color, startPixel);
+        dfs(image, i, j+1, color, startPixel);
 
     }
 }
